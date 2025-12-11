@@ -1,637 +1,217 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Paixão por 34 Dias - Reprodutor</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Do Paixão para a Minha Paixão</title>
+
+    <!-- ========================== -->
+    <!--  VERSÃO LIMITADA E LIMPADA  -->
+    <!--  Tudo organizado, sem scripts duplicados. -->
+    <!-- ========================== -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-user-select: none;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{
+            font-family:Inter,Arial,sans-serif;background:#000;color:#fff;display:flex;align-items:flex-start;justify-content:center;padding:20px;min-height:100vh
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            text-align: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        /* Título */
-        .titulo {
-            margin-bottom: 20px;
-        }
-        
-        .titulo h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Container do vídeo */
-        .video-container {
-            width: 100%;
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative;
-            margin-bottom: 20px;
-        }
-        
-        /* Vídeo */
-        video {
-            width: 100%;
-            height: auto;
-            display: block;
-            aspect-ratio: 9/16;
-            object-fit: cover;
-        }
-        
-        /* Controles */
-        .video-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            z-index: 10;
-        }
-        
-        .video-btn {
-            background: rgba(0,0,0,0.7);
-            border: 2px solid #ff6b6b;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            backdrop-filter: blur(5px);
-        }
-        
-        .video-btn:hover {
-            background: rgba(255,107,107,0.8);
-            transform: scale(1.1);
-        }
-        
-        /* Info do vídeo */
-        .video-info {
-            background: rgba(20, 20, 20, 0.8);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid #333;
-        }
-        
-        .video-titulo {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ff6b6b;
-            margin-bottom: 5px;
-        }
-        
-        .video-descricao {
-            font-size: 0.9rem;
-            color: #aaa;
-            line-height: 1.4;
-        }
-        
-        /* Loader */
-        .video-loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ff6b6b;
-            font-size: 1rem;
-            background: rgba(0,0,0,0.8);
-            padding: 15px 25px;
-            border-radius: 20px;
-            z-index: 20;
-            display: none;
-            border: 2px solid #ff6b6b;
-            text-align: center;
-        }
-        
-        .loader-spinner {
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(255,107,107,0.3);
-            border-top: 3px solid #ff6b6b;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Status */
-        .status {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(20, 20, 20, 0.5);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-        
-        /* Lista de vídeos */
-        .lista-videos {
-            margin-top: 20px;
-            background: rgba(20, 20, 20, 0.8);
-            border-radius: 10px;
-            padding: 15px;
-            border: 1px solid #333;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .lista-titulo {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #ff6b6b;
-            margin-bottom: 10px;
-        }
-        
-        .video-item {
-            padding: 8px;
-            margin: 5px 0;
-            background: rgba(40, 40, 40, 0.5);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .video-item:hover {
-            background: rgba(255, 107, 107, 0.2);
-            transform: translateX(5px);
-        }
-        
-        .video-item.ativo {
-            background: rgba(255, 107, 107, 0.3);
-            border-left: 3px solid #ff6b6b;
-        }
-        
-        .video-numero {
-            background: #ff6b6b;
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .container {
-                max-width: 320px;
-            }
-            
-            .titulo h1 {
-                font-size: 1.6rem;
-            }
-            
-            .lista-videos {
-                max-height: 150px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                max-width: 280px;
-            }
-            
-            .titulo h1 {
-                font-size: 1.4rem;
-            }
-            
-            .video-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
-            }
-            
-            .lista-videos {
-                max-height: 120px;
-            }
-        }
+        .container{width:100%;max-width:420px}
+        .titulo h1{font-size:2rem;background:linear-gradient(135deg,#ff6b6b,#ee5a24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:20px}
+        .progresso{text-align:center;margin-bottom:18px}
+        .dia-numero{font-size:3.5rem;font-weight:800}
+        .barra-container{width:80%;margin:10px auto;height:8px;background:#222;border-radius:6px;overflow:hidden}
+        .barra{height:100%;width:0;background:linear-gradient(90deg,#ff6b6b,#ee5a24);transition:width .6s}
+        .conteudo-container{margin:18px auto;background:#111;border-radius:12px;overflow:hidden;box-shadow:0 0 20px rgba(0,0,0,.4)}
+        .iframe-wrap{position:relative;padding-top:133.33%;width:100%}
+        .iframe-wrap iframe{position:absolute;left:0;top:0;width:100%;height:100%;border:0}
+        .liberar-wrap{text-align:center;margin:14px 0}
+        .btn-primary{background:#ff6b6b;color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;display:inline-block}
+        .contador{padding:12px;text-align:center;background:#111;border-radius:10px;margin-top:10px}
+        .tempo{font-size:1.6rem;color:#ff6b6b;font-weight:700}
+        .meta{font-size:.92rem;color:#ccc;margin-top:6px}
+        @media(min-width:700px){body{padding:40px}}
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- TÍTULO -->
-        <div class="titulo">
-            <h1>Paixão por 34 Dias</h1>
-            <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Reprodutor de Vídeos</div>
+        <div class="titulo"><h1>Do Paixão para a Minha Paixão</h1></div>
+
+        <div class="progresso">
+            <div id="dia-numero" class="dia-numero">1</div>
+            <div class="barra-container"><div id="barra" class="barra"></div></div>
         </div>
-        
-        <!-- VÍDEO -->
-        <div class="video-container">
-            <div class="video-loader" id="loader">
-                <div class="loader-spinner"></div>
-                <div>Carregando vídeo...</div>
-            </div>
-            
-            <video id="video-player" playsinline autoplay muted>
-                <source src="" type="video/mp4" id="video-source">
-                Seu navegador não suporta vídeos HTML5.
-            </video>
-            
-            <div class="video-controls">
-                <button class="video-btn" id="play-btn">⏸</button>
-                <button class="video-btn" id="mute-btn">🔇</button>
-                <button class="video-btn" id="fullscreen-btn">⛶</button>
-            </div>
+
+        <div id="conteudo" class="conteudo-container" aria-live="polite"></div>
+
+        <div id="liberar" class="liberar-wrap" style="display:none">
+            <a id="liberar-link" class="btn-primary" href="#">Ir para o site principal</a>
         </div>
-        
-        <!-- INFO DO VÍDEO -->
-        <div class="video-info">
-            <div class="video-titulo" id="video-title">Vídeo 01</div>
-            <div class="video-descricao" id="video-description">Dia 1 da sua jornada</div>
-        </div>
-        
-        <!-- LISTA DE VÍDEOS -->
-        <div class="lista-videos">
-            <div class="lista-titulo">🎬 Todos os Vídeos</div>
-            <div id="video-list">
-                <!-- Lista gerada por JavaScript -->
-            </div>
-        </div>
-        
-        <!-- STATUS -->
-        <div class="status" id="status">
-            Pronto para reproduzir
+
+        <div class="contador">
+            <div id="tempo" class="tempo">00:00:00</div>
+            <div class="meta">Até o próximo conteúdo</div>
         </div>
     </div>
 
     <script>
-        // 🔧 CONFIGURAÇÃO COM SEUS DADOS
-        const USER = "JiranhA003";
-        const REPO = "Paixão-por-34-dias";
-        const BASE_URL = `https://github.com/${USER}/${REPO}/raw/main/videos/`;
-        
-        // Lista de vídeos disponíveis
-        const VIDEOS = [];
-        
-        // Gerar automaticamente os 34 vídeos
-        for (let i = 1; i <= 34; i++) {
-            const numero = i.toString().padStart(2, '0');
-            VIDEOS.push({
-                url: `${BASE_URL}Video${numero}.mp4`,
-                title: `Dia ${i} - Transformação`,
-                description: `Aula ${i} da jornada de 34 dias`,
-                numero: i
+    (function(){
+        'use strict';
+
+        // ---------- CONFIGURAÇÃO (edite aqui) ----------
+        const USER = 'SEU_USUARIO_GITHUB';
+        const REPO = 'SEU_REPOSITORIO';
+        // Se você usar Kinescope, aqui o iframe padrão (substitua pelo seu).
+        const DEFAULT_KINESCOPE_IFRAME = 'https://kinescope.io/embed/fFQj6uS7LPKfJnCbUd7Hwm';
+        // Tempo mínimo para liberar o botão (em segundos). Usado quando não é possível detectar fim do vídeo.
+        const FALLBACK_UNLOCK_SECONDS = 20;
+        // ------------------------------------------------
+
+        const RAW = `https://raw.githubusercontent.com/${USER}/${REPO}/main/`;
+        const VIDEOS = RAW + 'videos/';
+        const IMAGES = RAW + 'images/';
+
+        // Função utilitária: formata tempo HH:MM:SS
+        function formatHHMMSS(totalMs){
+            if(totalMs <= 0) return '00:00:00';
+            const s = Math.floor(totalMs/1000);
+            const hh = String(Math.floor(s/3600)).padStart(2,'0');
+            const mm = String(Math.floor((s%3600)/60)).padStart(2,'0');
+            const ss = String(s%60).padStart(2,'0');
+            return `${hh}:${mm}:${ss}`;
+        }
+
+        // Inicia: garante início_jornada
+        function ensureStart(){
+            let inicio = localStorage.getItem('inicio_jornada');
+            if(!inicio){
+                inicio = new Date().toISOString();
+                localStorage.setItem('inicio_jornada', inicio);
+            }
+            return new Date(inicio);
+        }
+
+        // Calcula dia atual (1..30)
+        function obterDiaAtual(){
+            const inicio = ensureStart();
+            const diffMs = Date.now() - inicio.getTime();
+            const dia = Math.min(30, Math.floor(diffMs / (1000*60*60*24)) + 1);
+            return dia;
+        }
+
+        // Próximo desbloqueio baseado no início + dia*24h
+        function proximoDesbloqueio(dia){
+            const inicio = new Date(localStorage.getItem('inicio_jornada'));
+            // desbloqueio do dia = inicio + dia*24h (dia indexado a 1)
+            const unlock = new Date(inicio.getTime() + dia * 24 * 60 * 60 * 1000);
+            return unlock;
+        }
+
+        // Atualiza barra e número
+        function atualizarProgresso(dia){
+            const pct = Math.round((dia/30)*100);
+            document.getElementById('dia-numero').textContent = dia;
+            document.getElementById('barra').style.width = pct + '%';
+        }
+
+        // Carrega conteúdo (usa iframe Kinescope por dia se fornecido)
+        // Você pode personalizar a lista KINESCOPE_IFRAMES com 30 entradas.
+        const KINESCOPE_IFRAMES = (function(){
+            // exemplo: return [ 'https://kinescope.io/embed/UID1', 'https://kinescope.io/embed/UID2', ... ];
+            return [];
+        })();
+
+        function iframeForDay(dia){
+            if(KINESCOPE_IFRAMES && KINESCOPE_IFRAMES.length >= dia && KINESCOPE_IFRAMES[dia-1]){
+                return KINESCOPE_IFRAMES[dia-1];
+            }
+            return DEFAULT_KINESCOPE_IFRAME; // fallback
+        }
+
+        function carregarConteudo(dia){
+            const wrap = document.getElementById('conteudo');
+            wrap.innerHTML = '';
+
+            // sempre usar vídeo (por pedido)
+            const iframeUrl = iframeForDay(dia);
+            const html = `<div class="iframe-wrap" aria-hidden="false"><iframe src="${iframeUrl}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; clipboard-write" loading="lazy" ></iframe></div>`;
+            wrap.innerHTML = html;
+
+            // preparar liberação do botão: tentaremos usar flag persistente para não reiniciar contador de liberação
+            const unlockKey = `liberado_dia_${dia}`;
+            if(localStorage.getItem(unlockKey) === 'true'){
+                showLiberar();
+            } else {
+                startUnlockTimer(dia, unlockKey);
+            }
+        }
+
+        // Mostra botão liberar
+        function showLiberar(){
+            const lib = document.getElementById('liberar');
+            lib.style.display = 'block';
+        }
+
+        // Timer fallback para liberar (quando não podemos detectar fim do iframe)
+        function startUnlockTimer(dia, unlockKey){
+            // Se já tiver sido liberado no mesmo dia, mostra
+            if(localStorage.getItem(unlockKey) === 'true'){
+                showLiberar();
+                return;
+            }
+
+            // calculamos tempo restante até próximo desbloqueio (apenas para UI do contador)
+            const unlockAt = proximoDesbloqueio(dia);
+            const now = Date.now();
+            const remainingMs = unlockAt.getTime() - now;
+
+            // Se o desbloqueio natural já passou, liberar imediatamente
+            if(remainingMs <= 0){
+                localStorage.setItem(unlockKey,'true');
+                showLiberar();
+                return;
+            }
+
+            // Fallback: liberar após FALLBACK_UNLOCK_SECONDS (persistente por dia)
+            const fallbackMs = FALLBACK_UNLOCK_SECONDS * 1000;
+            const timerMs = Math.min(remainingMs, fallbackMs);
+
+            setTimeout(()=>{
+                localStorage.setItem(unlockKey,'true');
+                showLiberar();
+            }, timerMs);
+        }
+
+        // Contador mostrando tempo até próximo desbloqueio
+        function iniciarContador(dia){
+            const el = document.getElementById('tempo');
+            function tick(){
+                const unlockAt = proximoDesbloqueio(dia);
+                const remain = unlockAt.getTime() - Date.now();
+                el.textContent = formatHHMMSS(remain);
+            }
+            tick();
+            setInterval(tick,1000);
+        }
+
+        // Inicialização
+        function init(){
+            const dia = obterDiaAtual();
+            atualizarProgresso(dia);
+            carregarConteudo(dia);
+            iniciarContador(dia);
+
+            // configurar link do botão liberar (alterar href caso queira)
+            const liberarLink = document.getElementById('liberar-link');
+            liberarLink.href = 'https://seusite.com';
+            liberarLink.addEventListener('click', function(){
+                // aqui você pode registrar evento, analytics, etc.
             });
         }
-        
-        // Elementos do DOM
-        const videoPlayer = document.getElementById('video-player');
-        const videoSource = document.getElementById('video-source');
-        const loader = document.getElementById('loader');
-        const playBtn = document.getElementById('play-btn');
-        const muteBtn = document.getElementById('mute-btn');
-        const fullscreenBtn = document.getElementById('fullscreen-btn');
-        const videoTitle = document.getElementById('video-title');
-        const videoDescription = document.getElementById('video-description');
-        const statusDiv = document.getElementById('status');
-        const videoList = document.getElementById('video-list');
-        
-        // Estado do player
-        let currentVideoIndex = 0;
-        let isPlaying = true;
-        let isMuted = true;
-        
-        // Inicializar
-        function iniciarPlayer() {
-            console.log("🎬 Iniciando reprodutor de vídeo...");
-            console.log(`👤 Usuário: ${USER}`);
-            console.log(`📁 Repositório: ${REPO}`);
-            console.log(`🎥 ${VIDEOS.length} vídeos configurados`);
-            
-            // Criar lista de vídeos
-            criarListaVideos();
-            
-            // Carregar primeiro vídeo
-            carregarVideo(currentVideoIndex);
-            
-            // Configurar eventos
-            configurarEventos();
-        }
-        
-        // Criar lista de vídeos clicáveis
-        function criarListaVideos() {
-            videoList.innerHTML = '';
-            
-            VIDEOS.forEach((video, index) => {
-                const item = document.createElement('div');
-                item.className = 'video-item';
-                if (index === currentVideoIndex) {
-                    item.classList.add('ativo');
-                }
-                
-                item.innerHTML = `
-                    <div class="video-numero">${video.numero}</div>
-                    <div style="flex: 1; text-align: left;">
-                        <div style="font-weight: 500; color: #fff;">${video.title}</div>
-                        <div style="font-size: 0.75rem; color: #888;">${video.description}</div>
-                    </div>
-                `;
-                
-                item.addEventListener('click', () => {
-                    carregarVideo(index);
-                });
-                
-                videoList.appendChild(item);
-            });
-        }
-        
-        // Carregar vídeo específico
-        function carregarVideo(index) {
-            if (index < 0 || index >= VIDEOS.length) return;
-            
-            currentVideoIndex = index;
-            const video = VIDEOS[index];
-            
-            console.log(`📺 Carregando: ${video.title}`);
-            
-            // Atualizar UI
-            videoTitle.textContent = video.title;
-            videoDescription.textContent = video.description;
-            
-            // Mostrar loader
-            loader.style.display = 'block';
-            statusDiv.textContent = `Carregando vídeo ${video.numero}...`;
-            
-            // Atualizar lista
-            document.querySelectorAll('.video-item').forEach((item, i) => {
-                if (i === index) {
-                    item.classList.add('ativo');
-                } else {
-                    item.classList.remove('ativo');
-                }
-            });
-            
-            // Tentar carregar o vídeo
-            videoSource.src = video.url;
-            videoPlayer.load();
-            
-            // Forçar recarga
-            videoPlayer.onloadeddata = function() {
-                console.log(`✅ Vídeo ${video.numero} carregado com sucesso!`);
-                loader.style.display = 'none';
-                
-                // Tentar reproduzir automaticamente
-                videoPlayer.play().then(() => {
-                    isPlaying = true;
-                    playBtn.textContent = '⏸';
-                    statusDiv.textContent = `Reproduzindo: ${video.title}`;
-                }).catch(error => {
-                    console.log("❌ Autoplay bloqueado:", error);
-                    playBtn.textContent = '▶';
-                    isPlaying = false;
-                    statusDiv.textContent = `Vídeo ${video.numero} carregado - Clique em ▶`;
-                });
-            };
-            
-            videoPlayer.onerror = function(e) {
-                console.error(`❌ Erro ao carregar vídeo ${video.numero}:`, e);
-                loader.innerHTML = `
-                    <div style="color: #ff6b6b; font-size: 2rem;">❌</div>
-                    <div>Erro ao carregar vídeo ${video.numero}</div>
-                    <div style="font-size: 0.8rem; margin-top: 10px; color: #ff6b6b;">
-                        URL: ${video.url}
-                    </div>
-                `;
-                statusDiv.innerHTML = `
-                    <div style="color: #ff6b6b;">
-                        ❌ Erro: Vídeo ${video.numero} não encontrado
-                    </div>
-                    <div style="font-size: 0.8rem; margin-top: 5px;">
-                        Verifique se o arquivo existe no GitHub
-                    </div>
-                `;
-            };
-        }
-        
-        // Configurar eventos
-        function configurarEventos() {
-            // Controle de play/pause
-            playBtn.addEventListener('click', function() {
-                if (isPlaying) {
-                    videoPlayer.pause();
-                    playBtn.textContent = '▶';
-                    isPlaying = false;
-                    statusDiv.textContent = "Pausado";
-                } else {
-                    videoPlayer.play().then(() => {
-                        playBtn.textContent = '⏸';
-                        isPlaying = true;
-                        statusDiv.textContent = `Reproduzindo: ${videoTitle.textContent}`;
-                    }).catch(error => {
-                        console.log("Erro ao reproduzir:", error);
-                        statusDiv.textContent = "Erro ao reproduzir";
-                    });
-                }
-            });
-            
-            // Controle de mudo
-            muteBtn.addEventListener('click', function() {
-                if (isMuted) {
-                    videoPlayer.muted = false;
-                    muteBtn.textContent = '🔊';
-                    isMuted = false;
-                    statusDiv.textContent = "Som ativado";
-                } else {
-                    videoPlayer.muted = true;
-                    muteBtn.textContent = '🔇';
-                    isMuted = true;
-                    statusDiv.textContent = "Som desativado";
-                }
-            });
-            
-            // Tela cheia
-            fullscreenBtn.addEventListener('click', function() {
-                const container = document.querySelector('.video-container');
-                
-                if (!document.fullscreenElement) {
-                    if (container.requestFullscreen) {
-                        container.requestFullscreen();
-                    } else if (container.webkitRequestFullscreen) {
-                        container.webkitRequestFullscreen();
-                    } else if (container.msRequestFullscreen) {
-                        container.msRequestFullscreen();
-                    }
-                    statusDiv.textContent = "Tela cheia ativada";
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-                    statusDiv.textContent = "Tela cheia desativada";
-                }
-            });
-            
-            // Quando o vídeo terminar
-            videoPlayer.addEventListener('ended', function() {
-                playBtn.textContent = '⏭️';
-                isPlaying = false;
-                statusDiv.textContent = "Vídeo finalizado";
-                
-                // Ir para o próximo vídeo após 2 segundos
-                setTimeout(() => {
-                    const nextIndex = (currentVideoIndex + 1) % VIDEOS.length;
-                    carregarVideo(nextIndex);
-                }, 2000);
-            });
-            
-            // Eventos de teclado
-            document.addEventListener('keydown', function(e) {
-                switch(e.key) {
-                    case ' ':
-                    case 'Spacebar':
-                        e.preventDefault();
-                        playBtn.click();
-                        break;
-                    case 'm':
-                    case 'M':
-                        e.preventDefault();
-                        muteBtn.click();
-                        break;
-                    case 'f':
-                    case 'F':
-                        e.preventDefault();
-                        fullscreenBtn.click();
-                        break;
-                    case 'ArrowLeft':
-                        e.preventDefault();
-                        if (e.ctrlKey || e.metaKey) {
-                            // Ctrl+← = vídeo anterior
-                            const prevIndex = (currentVideoIndex - 1 + VIDEOS.length) % VIDEOS.length;
-                            carregarVideo(prevIndex);
-                        } else {
-                            // ← = retroceder 10s
-                            videoPlayer.currentTime -= 10;
-                            statusDiv.textContent = "Retrocedeu 10 segundos";
-                        }
-                        break;
-                    case 'ArrowRight':
-                        e.preventDefault();
-                        if (e.ctrlKey || e.metaKey) {
-                            // Ctrl+→ = próximo vídeo
-                            const nextIndex = (currentVideoIndex + 1) % VIDEOS.length;
-                            carregarVideo(nextIndex);
-                        } else {
-                            // → = avançar 10s
-                            videoPlayer.currentTime += 10;
-                            statusDiv.textContent = "Avançou 10 segundos";
-                        }
-                        break;
-                    case 'ArrowUp':
-                        e.preventDefault();
-                        const prevIndex = (currentVideoIndex - 1 + VIDEOS.length) % VIDEOS.length;
-                        carregarVideo(prevIndex);
-                        break;
-                    case 'ArrowDown':
-                        e.preventDefault();
-                        const nextIndex = (currentVideoIndex + 1) % VIDEOS.length;
-                        carregarVideo(nextIndex);
-                        break;
-                }
-            });
-        }
-        
-        // Testar URLs
-        function testarURLs() {
-            statusDiv.innerHTML = `
-                <div>🔍 Testando conexão com GitHub...</div>
-                <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">
-                    Usuário: ${USER} | Repo: ${REPO}
-                </div>
-            `;
-            
-            // Testar primeiro vídeo
-            fetch(VIDEOS[0].url)
-                .then(response => {
-                    if (response.ok) {
-                        statusDiv.innerHTML = `
-                            <div style="color: #4CAF50;">✅ Conexão estabelecida!</div>
-                            <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">
-                                ${VIDEOS.length} vídeos disponíveis
-                            </div>
-                        `;
-                    } else {
-                        statusDiv.innerHTML = `
-                            <div style="color: #ff6b6b;">⚠️ Repositório encontrado, mas vídeo não</div>
-                            <div style="font-size: 0.8rem; margin-top: 5px;">
-                                Crie a pasta <strong>videos/</strong> com Video01.mp4, etc.
-                            </div>
-                        `;
-                    }
-                })
-                .catch(error => {
-                    statusDiv.innerHTML = `
-                        <div style="color: #ff6b6b;">❌ Erro de conexão</div>
-                        <div style="font-size: 0.8rem; margin-top: 5px;">
-                            Verifique: https://github.com/${USER}/${REPO}
-                        </div>
-                    `;
-                });
-        }
-        
-        // Iniciar quando a página carregar
-        document.addEventListener('DOMContentLoaded', function() {
-            iniciarPlayer();
-            // Testar conexão após 2 segundos
-            setTimeout(testarURLs, 2000);
-        });
-        
-        // Comandos do console
-        console.log("🎮 Comandos disponíveis:");
-        console.log("• Espaço = Play/Pause");
-        console.log("• M = Mudo/Desmudo");
-        console.log("• F = Tela cheia");
-        console.log("• Setas = Avançar/Retroceder 10s");
-        console.log("• Ctrl+Setas ou ↑↓ = Trocar vídeo");
-        console.log("• currentVideoIndex = Ver vídeo atual");
-        console.log("• carregarVideo(n) = Ir para vídeo n (0-33)");
+
+        // Run
+        document.addEventListener('DOMContentLoaded', init);
+
+    })();
     </script>
 </body>
 </html>
