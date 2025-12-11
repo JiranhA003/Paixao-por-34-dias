@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Paixão por 34 Dias - Reprodutor</title>
+    <title>Paixão por 34 Dias - Dia 19</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
@@ -31,9 +31,16 @@
             max-width: 400px;
         }
         
-        /* Título */
-        .titulo {
-            margin-bottom: 20px;
+        /* Cabeçalho com data */
+        .cabecalho {
+            margin-bottom: 25px;
+        }
+        
+        .data-atual {
+            font-size: 0.9rem;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+            font-weight: 500;
         }
         
         .titulo h1 {
@@ -43,6 +50,60 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+        
+        .subtitulo {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Progresso */
+        .progresso {
+            margin: 0 auto 25px;
+            background: rgba(20, 20, 20, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        
+        .dia-numero {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 5px 0;
+        }
+        
+        .porcentagem {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        
+        .barra-container {
+            height: 6px;
+            background: #222;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0 auto;
+            width: 80%;
+        }
+        
+        .barra {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%);
+            width: 56%; /* 19/34 = ~56% */
+            transition: width 0.8s ease;
+        }
+        
+        .info-progresso {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 8px;
         }
         
         /* Container do vídeo */
@@ -162,15 +223,16 @@
             color: #aaa;
         }
         
-        /* Lista de vídeos */
+        /* Lista de vídeos (escondida por padrão) */
         .lista-videos {
             margin-top: 20px;
             background: rgba(20, 20, 20, 0.8);
             border-radius: 10px;
             padding: 15px;
             border: 1px solid #333;
-            max-height: 200px;
+            max-height: 150px;
             overflow-y: auto;
+            display: none; /* Escondido inicialmente */
         }
         
         .lista-titulo {
@@ -178,6 +240,17 @@
             font-weight: 600;
             color: #ff6b6b;
             margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toggle-lista {
+            background: transparent;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
         
         .video-item {
@@ -216,6 +289,24 @@
             font-weight: bold;
         }
         
+        /* Botão para ver todos os vídeos */
+        .ver-todos-btn {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .ver-todos-btn:hover {
+            background: rgba(255, 107, 107, 0.4);
+            transform: translateY(-2px);
+        }
+        
         /* Responsivo */
         @media (max-width: 768px) {
             .container {
@@ -226,8 +317,12 @@
                 font-size: 1.6rem;
             }
             
+            .dia-numero {
+                font-size: 3rem;
+            }
+            
             .lista-videos {
-                max-height: 150px;
+                max-height: 120px;
             }
         }
         
@@ -240,6 +335,10 @@
                 font-size: 1.4rem;
             }
             
+            .dia-numero {
+                font-size: 2.5rem;
+            }
+            
             .video-btn {
                 width: 40px;
                 height: 40px;
@@ -247,24 +346,37 @@
             }
             
             .lista-videos {
-                max-height: 120px;
+                max-height: 100px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- TÍTULO -->
-        <div class="titulo">
-            <h1>Paixão por 34 Dias</h1>
-            <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Reprodutor de Vídeos</div>
+        <!-- CABEÇALHO COM DATA -->
+        <div class="cabecalho">
+            <div class="data-atual" id="data-atual">19 de Dezembro de 2024</div>
+            <div class="titulo">
+                <h1>Paixão por 34 Dias</h1>
+                <div class="subtitulo">Transformação Diária</div>
+            </div>
+        </div>
+        
+        <!-- PROGRESSO -->
+        <div class="progresso">
+            <div class="dia-numero" id="dia-numero">19</div>
+            <div class="porcentagem" id="porcentagem">56%</div>
+            <div class="barra-container">
+                <div class="barra" id="barra"></div>
+            </div>
+            <div class="info-progresso">Dia 19 de 34 • Mais 15 dias para concluir</div>
         </div>
         
         <!-- VÍDEO -->
         <div class="video-container">
             <div class="video-loader" id="loader">
                 <div class="loader-spinner"></div>
-                <div>Carregando vídeo...</div>
+                <div>Carregando vídeo do Dia 19...</div>
             </div>
             
             <video id="video-player" playsinline autoplay muted>
@@ -281,13 +393,21 @@
         
         <!-- INFO DO VÍDEO -->
         <div class="video-info">
-            <div class="video-titulo" id="video-title">Vídeo 01</div>
-            <div class="video-descricao" id="video-description">Dia 1 da sua jornada</div>
+            <div class="video-titulo" id="video-title">Dia 19 - Transformação</div>
+            <div class="video-descricao" id="video-description">Aula 19 da sua jornada de 34 dias. Continue firme!</div>
         </div>
         
-        <!-- LISTA DE VÍDEOS -->
-        <div class="lista-videos">
-            <div class="lista-titulo">🎬 Todos os Vídeos</div>
+        <!-- BOTÃO PARA VER TODOS -->
+        <button class="ver-todos-btn" id="ver-todos-btn">
+            📋 Ver todos os vídeos (1-34)
+        </button>
+        
+        <!-- LISTA DE VÍDEOS (ESCONDIDA) -->
+        <div class="lista-videos" id="lista-videos">
+            <div class="lista-titulo">
+                <span>🎬 Todos os Vídeos</span>
+                <button class="toggle-lista" id="fechar-lista">✕ Fechar</button>
+            </div>
             <div id="video-list">
                 <!-- Lista gerada por JavaScript -->
             </div>
@@ -295,7 +415,7 @@
         
         <!-- STATUS -->
         <div class="status" id="status">
-            Pronto para reproduzir
+            Carregando conteúdo do Dia 19...
         </div>
     </div>
 
@@ -305,17 +425,24 @@
         const REPO = "Paixão-por-34-dias";
         const BASE_URL = `https://github.com/${USER}/${REPO}/raw/main/videos/`;
         
+        // CONFIGURAÇÃO DA JORNADA
+        const DIA_ATUAL = 19; // ⭐ DIA FIXO 19 ⭐
+        const TOTAL_DIAS = 34;
+        
         // Lista de vídeos disponíveis
         const VIDEOS = [];
         
         // Gerar automaticamente os 34 vídeos
-        for (let i = 1; i <= 34; i++) {
+        for (let i = 1; i <= TOTAL_DIAS; i++) {
             const numero = i.toString().padStart(2, '0');
             VIDEOS.push({
                 url: `${BASE_URL}Video${numero}.mp4`,
                 title: `Dia ${i} - Transformação`,
-                description: `Aula ${i} da jornada de 34 dias`,
-                numero: i
+                description: i === DIA_ATUAL ? 
+                    `Aula ${i} - Você está aqui!` :
+                    `Aula ${i} da jornada de ${TOTAL_DIAS} dias`,
+                numero: i,
+                isCurrentDay: i === DIA_ATUAL
             });
         }
         
@@ -330,23 +457,60 @@
         const videoDescription = document.getElementById('video-description');
         const statusDiv = document.getElementById('status');
         const videoList = document.getElementById('video-list');
+        const listaVideos = document.getElementById('lista-videos');
+        const verTodosBtn = document.getElementById('ver-todos-btn');
+        const fecharLista = document.getElementById('fechar-lista');
+        const diaNumero = document.getElementById('dia-numero');
+        const porcentagem = document.getElementById('porcentagem');
+        const barra = document.getElementById('barra');
+        const dataAtual = document.getElementById('data-atual');
         
         // Estado do player
-        let currentVideoIndex = 0;
+        let currentVideoIndex = DIA_ATUAL - 1; // Começa no dia 19
         let isPlaying = true;
         let isMuted = true;
+        
+        // Atualizar data atual
+        function atualizarDataAtual() {
+            const hoje = new Date();
+            // Começando em 1º de dezembro, dia 19 seria 19 de dezembro
+            const dataInicio = new Date('2024-12-01');
+            const dataDiaAtual = new Date(dataInicio);
+            dataDiaAtual.setDate(dataInicio.getDate() + (DIA_ATUAL - 1));
+            
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const dataFormatada = dataDiaAtual.toLocaleDateString('pt-BR', options);
+            dataAtual.textContent = dataFormatada;
+        }
+        
+        // Calcular progresso
+        function atualizarProgresso() {
+            const percentual = (DIA_ATUAL / TOTAL_DIAS) * 100;
+            const percentualArredondado = Math.round(percentual);
+            
+            diaNumero.textContent = DIA_ATUAL;
+            porcentagem.textContent = `${percentualArredondado}%`;
+            barra.style.width = `${percentual}%`;
+            
+            console.log(`📊 Progresso: Dia ${DIA_ATUAL}/${TOTAL_DIAS} (${percentualArredondado}%)`);
+        }
         
         // Inicializar
         function iniciarPlayer() {
             console.log("🎬 Iniciando reprodutor de vídeo...");
             console.log(`👤 Usuário: ${USER}`);
             console.log(`📁 Repositório: ${REPO}`);
+            console.log(`📅 Dia atual: ${DIA_ATUAL}/${TOTAL_DIAS}`);
             console.log(`🎥 ${VIDEOS.length} vídeos configurados`);
+            
+            // Atualizar interface
+            atualizarDataAtual();
+            atualizarProgresso();
             
             // Criar lista de vídeos
             criarListaVideos();
             
-            // Carregar primeiro vídeo
+            // Carregar vídeo do dia 19
             carregarVideo(currentVideoIndex);
             
             // Configurar eventos
@@ -360,20 +524,22 @@
             VIDEOS.forEach((video, index) => {
                 const item = document.createElement('div');
                 item.className = 'video-item';
-                if (index === currentVideoIndex) {
+                if (video.isCurrentDay) {
                     item.classList.add('ativo');
                 }
                 
                 item.innerHTML = `
                     <div class="video-numero">${video.numero}</div>
                     <div style="flex: 1; text-align: left;">
-                        <div style="font-weight: 500; color: #fff;">${video.title}</div>
+                        <div style="font-weight: 500; color: ${video.isCurrentDay ? '#ff6b6b' : '#fff'};">${video.title}</div>
                         <div style="font-size: 0.75rem; color: #888;">${video.description}</div>
                     </div>
+                    ${video.isCurrentDay ? '<div style="color: #ff6b6b; font-size: 1.2rem;">▶</div>' : ''}
                 `;
                 
                 item.addEventListener('click', () => {
                     carregarVideo(index);
+                    // Não fecha a lista, só atualiza o vídeo
                 });
                 
                 videoList.appendChild(item);
@@ -442,7 +608,7 @@
                         ❌ Erro: Vídeo ${video.numero} não encontrado
                     </div>
                     <div style="font-size: 0.8rem; margin-top: 5px;">
-                        Verifique se o arquivo existe no GitHub
+                        Verifique se o arquivo "Video${video.numero.toString().padStart(2, '0')}.mp4" existe no GitHub
                     </div>
                 `;
             };
@@ -511,15 +677,34 @@
             
             // Quando o vídeo terminar
             videoPlayer.addEventListener('ended', function() {
-                playBtn.textContent = '⏭️';
+                playBtn.textContent = '🔄';
                 isPlaying = false;
                 statusDiv.textContent = "Vídeo finalizado";
                 
-                // Ir para o próximo vídeo após 2 segundos
-                setTimeout(() => {
-                    const nextIndex = (currentVideoIndex + 1) % VIDEOS.length;
-                    carregarVideo(nextIndex);
-                }, 2000);
+                // Se for o dia 19, sugerir dia 20
+                if (currentVideoIndex === DIA_ATUAL - 1) {
+                    setTimeout(() => {
+                        statusDiv.innerHTML = `
+                            <div>🎯 Vídeo do Dia ${DIA_ATUAL} concluído!</div>
+                            <div style="font-size: 0.8rem; color: #4CAF50; margin-top: 5px;">
+                                Amanhã: Dia ${DIA_ATUAL + 1}
+                            </div>
+                        `;
+                    }, 1000);
+                }
+            });
+            
+            // Mostrar/ocultar lista de vídeos
+            verTodosBtn.addEventListener('click', function() {
+                listaVideos.style.display = 'block';
+                verTodosBtn.style.display = 'none';
+                statusDiv.textContent = "Selecione um vídeo da lista";
+            });
+            
+            fecharLista.addEventListener('click', function() {
+                listaVideos.style.display = 'none';
+                verTodosBtn.style.display = 'block';
+                statusDiv.textContent = `Reproduzindo: ${videoTitle.textContent}`;
             });
             
             // Eventos de teclado
@@ -539,6 +724,15 @@
                     case 'F':
                         e.preventDefault();
                         fullscreenBtn.click();
+                        break;
+                    case 'l':
+                    case 'L':
+                        e.preventDefault();
+                        if (listaVideos.style.display === 'block') {
+                            fecharLista.click();
+                        } else {
+                            verTodosBtn.click();
+                        }
                         break;
                     case 'ArrowLeft':
                         e.preventDefault();
@@ -564,16 +758,6 @@
                             statusDiv.textContent = "Avançou 10 segundos";
                         }
                         break;
-                    case 'ArrowUp':
-                        e.preventDefault();
-                        const prevIndex = (currentVideoIndex - 1 + VIDEOS.length) % VIDEOS.length;
-                        carregarVideo(prevIndex);
-                        break;
-                    case 'ArrowDown':
-                        e.preventDefault();
-                        const nextIndex = (currentVideoIndex + 1) % VIDEOS.length;
-                        carregarVideo(nextIndex);
-                        break;
                 }
             });
         }
@@ -583,25 +767,26 @@
             statusDiv.innerHTML = `
                 <div>🔍 Testando conexão com GitHub...</div>
                 <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">
-                    Usuário: ${USER} | Repo: ${REPO}
+                    Buscando Video19.mp4...
                 </div>
             `;
             
-            // Testar primeiro vídeo
-            fetch(VIDEOS[0].url)
+            // Testar vídeo do dia 19
+            const video19URL = VIDEOS[DIA_ATUAL - 1].url;
+            fetch(video19URL)
                 .then(response => {
                     if (response.ok) {
                         statusDiv.innerHTML = `
-                            <div style="color: #4CAF50;">✅ Conexão estabelecida!</div>
+                            <div style="color: #4CAF50;">✅ Vídeo do Dia 19 encontrado!</div>
                             <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">
                                 ${VIDEOS.length} vídeos disponíveis
                             </div>
                         `;
                     } else {
                         statusDiv.innerHTML = `
-                            <div style="color: #ff6b6b;">⚠️ Repositório encontrado, mas vídeo não</div>
+                            <div style="color: #ff6b6b;">⚠️ Video19.mp4 não encontrado</div>
                             <div style="font-size: 0.8rem; margin-top: 5px;">
-                                Crie a pasta <strong>videos/</strong> com Video01.mp4, etc.
+                                Crie o arquivo: <strong>videos/Video19.mp4</strong> no GitHub
                             </div>
                         `;
                     }
@@ -628,10 +813,10 @@
         console.log("• Espaço = Play/Pause");
         console.log("• M = Mudo/Desmudo");
         console.log("• F = Tela cheia");
+        console.log("• L = Mostrar/ocultar lista");
         console.log("• Setas = Avançar/Retroceder 10s");
-        console.log("• Ctrl+Setas ou ↑↓ = Trocar vídeo");
-        console.log("• currentVideoIndex = Ver vídeo atual");
-        console.log("• carregarVideo(n) = Ir para vídeo n (0-33)");
+        console.log("• Ctrl+Setas = Trocar vídeo");
+        console.log(`• Dia atual fixo: ${DIA_ATUAL}`);
     </script>
 </body>
 </html>
