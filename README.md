@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Do Paixão para a Minha Paixão - Sistema Inteligente</title>
+    <title>Paixão por 34 Dias - Reprodutor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
@@ -18,23 +18,26 @@
             background: #000000;
             color: #ffffff;
             text-align: center;
-            overflow-x: hidden;
-            padding: 20px 15px;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
         
         .container {
-            max-width: 100%;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 400px;
         }
         
         /* Título */
         .titulo {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .titulo h1 {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
             -webkit-background-clip: text;
@@ -42,58 +45,18 @@
             background-clip: text;
         }
         
-        /* Progresso */
-        .progresso {
-            margin: 0 auto 30px;
-            max-width: 500px;
-        }
-        
-        .dia-numero {
-            font-size: 4.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 10px 0;
-        }
-        
-        .porcentagem {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #ffd700;
-            margin-bottom: 15px;
-        }
-        
-        .barra-container {
-            height: 8px;
-            background: #222;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0 auto;
-            width: 80%;
-        }
-        
-        .barra {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%);
-            width: 0%;
-            transition: width 0.8s ease;
-        }
-        
-        /* Container do conteúdo */
-        .conteudo-container {
-            margin: 30px auto;
-            max-width: 400px;
+        /* Container do vídeo */
+        .video-container {
             width: 100%;
             background: #111;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             position: relative;
+            margin-bottom: 20px;
         }
         
-        /* VÍDEO */
+        /* Vídeo */
         video {
             width: 100%;
             height: auto;
@@ -102,142 +65,7 @@
             object-fit: cover;
         }
         
-        /* SLIDESHOW */
-        .slideshow-container {
-            width: 100%;
-            height: 640px;
-            position: relative;
-            overflow: hidden;
-            touch-action: none;
-        }
-        
-        .slides-track {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.3s ease-out;
-            will-change: transform;
-        }
-        
-        .slide {
-            flex: 0 0 100%;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .image-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .slide-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-        
-        .slide-texto {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            text-align: center;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            padding: 25px 15px 15px;
-        }
-        
-        .slide-titulo {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .slide-descricao {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.9);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        
         /* Controles */
-        .slide-indicator {
-            position: absolute;
-            bottom: 90px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            z-index: 10;
-        }
-        
-        .indicator-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .indicator-dot.active {
-            background: #ff6b6b;
-            transform: scale(1.3);
-            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
-        }
-        
-        .slide-counter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-        }
-        
-        .music-control {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 10;
-        }
-        
-        .music-btn {
-            background: rgba(0,0,0,0.7);
-            border: 2px solid #ff6b6b;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            backdrop-filter: blur(5px);
-        }
-        
-        .music-btn.playing {
-            background: rgba(255,107,107,0.8);
-        }
-        
         .video-controls {
             position: absolute;
             bottom: 20px;
@@ -265,25 +93,34 @@
             backdrop-filter: blur(5px);
         }
         
-        /* Info do tipo de conteúdo */
-        .content-type-badge {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0,0,0,0.7);
-            color: #ff6b6b;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            border: 1px solid #ff6b6b;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .video-btn:hover {
+            background: rgba(255,107,107,0.8);
+            transform: scale(1.1);
         }
         
-        /* Loaders */
+        /* Info do vídeo */
+        .video-info {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #333;
+        }
+        
+        .video-titulo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+        
+        .video-descricao {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.4;
+        }
+        
+        /* Loader */
         .video-loader {
             position: absolute;
             top: 50%;
@@ -315,87 +152,102 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Contador */
-        .contador {
-            margin: 25px auto;
-            padding: 15px;
-            background: rgba(20, 20, 20, 0.8);
-            border-radius: 12px;
-            max-width: 300px;
-        }
-        
-        .tempo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-            color: #ff6b6b;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
-            margin-bottom: 8px;
-        }
-        
-        .texto-contador {
-            font-size: 1.1rem;
+        /* Status */
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(20, 20, 20, 0.5);
+            border-radius: 8px;
+            font-size: 0.9rem;
             color: #aaa;
-            line-height: 1.3;
         }
         
-        .concluido {
-            color: #4CAF50;
-            font-size: 1.8rem;
-            padding: 20px;
-            animation: pulse 2s infinite;
+        /* Lista de vídeos */
+        .lista-videos {
             margin-top: 20px;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #333;
+            max-height: 200px;
+            overflow-y: auto;
         }
         
-        @keyframes pulse {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; }
-            100% { opacity: 0.8; }
+        .lista-titulo {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ff6b6b;
+            margin-bottom: 10px;
         }
         
-        /* Glow effect */
-        .glow {
-            animation: glow 3s ease-in-out infinite alternate;
+        .video-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(40, 40, 40, 0.5);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(238, 90, 36, 0.5); }
-            to { text-shadow: 0 0 20px rgba(238, 90, 36, 0.8), 0 0 30px rgba(238, 90, 36, 0.4); }
+        .video-item:hover {
+            background: rgba(255, 107, 107, 0.2);
+            transform: translateX(5px);
         }
         
-        /* Element spacing */
-        .elemento {
-            display: block;
-            margin-bottom: 25px;
+        .video-item.ativo {
+            background: rgba(255, 107, 107, 0.3);
+            border-left: 3px solid #ff6b6b;
         }
         
-        /* Responsividade */
+        .video-numero {
+            background: #ff6b6b;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        /* Responsivo */
         @media (max-width: 768px) {
-            .conteudo-container {
+            .container {
                 max-width: 320px;
-            }
-            
-            .slideshow-container {
-                height: 570px;
-            }
-            
-            .titulo h1 {
-                font-size: 1.8rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .conteudo-container {
-                max-width: 280px;
-            }
-            
-            .slideshow-container {
-                height: 500px;
             }
             
             .titulo h1 {
                 font-size: 1.6rem;
+            }
+            
+            .lista-videos {
+                max-height: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                max-width: 280px;
+            }
+            
+            .titulo h1 {
+                font-size: 1.4rem;
+            }
+            
+            .video-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            
+            .lista-videos {
+                max-height: 120px;
             }
         }
     </style>
@@ -403,710 +255,383 @@
 <body>
     <div class="container">
         <!-- TÍTULO -->
-        <div class="titulo elemento">
-            <h1 class="glow">Do Paixão para a Minha Paixão</h1>
+        <div class="titulo">
+            <h1>Paixão por 34 Dias</h1>
+            <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Reprodutor de Vídeos</div>
         </div>
         
-        <!-- PROGRESSO -->
-        <div class="progresso elemento">
-            <div class="dia-numero" id="dia-numero">1</div>
-            <div class="porcentagem" id="porcentagem">3%</div>
-            <div class="barra-container">
-                <div class="barra" id="barra"></div>
-            </div>
-        </div>
-        
-        <!-- CONTEÚDO -->
-        <div class="conteudo-container elemento">
+        <!-- VÍDEO -->
+        <div class="video-container">
             <div class="video-loader" id="loader">
                 <div class="loader-spinner"></div>
-                <div>Carregando conteúdo...</div>
+                <div>Carregando vídeo...</div>
             </div>
-            <div id="conteudo-placeholder"></div>
+            
+            <video id="video-player" playsinline autoplay muted>
+                <source src="" type="video/mp4" id="video-source">
+                Seu navegador não suporta vídeos HTML5.
+            </video>
+            
+            <div class="video-controls">
+                <button class="video-btn" id="play-btn">⏸</button>
+                <button class="video-btn" id="mute-btn">🔇</button>
+                <button class="video-btn" id="fullscreen-btn">⛶</button>
+            </div>
         </div>
         
-        <!-- CONTADOR -->
-        <div class="contador elemento" id="contador">
-            <div class="tempo" id="tempo">23:45:12</div>
-            <div class="texto-contador">Até o próximo conteúdo!</div>
+        <!-- INFO DO VÍDEO -->
+        <div class="video-info">
+            <div class="video-titulo" id="video-title">Vídeo 01</div>
+            <div class="video-descricao" id="video-description">Dia 1 da sua jornada</div>
         </div>
         
-        <!-- CONCLUÍDO -->
-        <div id="concluido" style="display: none;"></div>
+        <!-- LISTA DE VÍDEOS -->
+        <div class="lista-videos">
+            <div class="lista-titulo">🎬 Todos os Vídeos</div>
+            <div id="video-list">
+                <!-- Lista gerada por JavaScript -->
+            </div>
+        </div>
+        
+        <!-- STATUS -->
+        <div class="status" id="status">
+            Pronto para reproduzir
+        </div>
     </div>
 
     <script>
-        // 🔧 CONFIGURAÇÃO DO USUÁRIO 🔧
-        // Substitua pelo SEU usuário e repositório do GitHub
-        const USER = "SEU_USUARIO_GITHUB";
-        const REPO = "SEU_REPOSITORIO";
+        // 🔧 CONFIGURAÇÃO COM SEUS DADOS
+        const USER = "JiranhA003";
+        const REPO = "Paixão-por-34-dias";
+        const BASE_URL = `https://github.com/${USER}/${REPO}/raw/main/videos/`;
         
-        // URLs base para as pastas no GitHub
-        const BASE_URL = `https://github.com/${USER}/${REPO}/raw/main/`;
-        const VIDEOS_FOLDER = `${BASE_URL}videos/`;
-        const IMAGES_FOLDER = `${BASE_URL}images/`;
+        // Lista de vídeos disponíveis
+        const VIDEOS = [];
         
-        // Sistema de gerenciamento inteligente
-        const ContentManager = {
-            // Listas de conteúdo disponível
-            availableVideos: [],
-            availableImages: [],
+        // Gerar automaticamente os 34 vídeos
+        for (let i = 1; i <= 34; i++) {
+            const numero = i.toString().padStart(2, '0');
+            VIDEOS.push({
+                url: `${BASE_URL}Video${numero}.mp4`,
+                title: `Dia ${i} - Transformação`,
+                description: `Aula ${i} da jornada de 34 dias`,
+                numero: i
+            });
+        }
+        
+        // Elementos do DOM
+        const videoPlayer = document.getElementById('video-player');
+        const videoSource = document.getElementById('video-source');
+        const loader = document.getElementById('loader');
+        const playBtn = document.getElementById('play-btn');
+        const muteBtn = document.getElementById('mute-btn');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const videoTitle = document.getElementById('video-title');
+        const videoDescription = document.getElementById('video-description');
+        const statusDiv = document.getElementById('status');
+        const videoList = document.getElementById('video-list');
+        
+        // Estado do player
+        let currentVideoIndex = 0;
+        let isPlaying = true;
+        let isMuted = true;
+        
+        // Inicializar
+        function iniciarPlayer() {
+            console.log("🎬 Iniciando reprodutor de vídeo...");
+            console.log(`👤 Usuário: ${USER}`);
+            console.log(`📁 Repositório: ${REPO}`);
+            console.log(`🎥 ${VIDEOS.length} vídeos configurados`);
             
-            // Conteúdo já usado (para não repetir)
-            usedVideos: new Set(),
-            usedImages: new Set(),
+            // Criar lista de vídeos
+            criarListaVideos();
             
-            // Histórico de tipos de conteúdo
-            contentHistory: [],
+            // Carregar primeiro vídeo
+            carregarVideo(currentVideoIndex);
             
-            // Configuração do algoritmo
-            config: {
-                // Peso para vídeos vs imagens (0.5 = 50% de chance para cada)
-                videoWeight: 0.5,
-                // Tamanho máximo do slideshow
-                maxSlidesPerDay: 3,
-                // Garantir que depois de X dias, o tipo se repita
-                maxSameTypeStreak: 2
-            },
+            // Configurar eventos
+            configurarEventos();
+        }
+        
+        // Criar lista de vídeos clicáveis
+        function criarListaVideos() {
+            videoList.innerHTML = '';
             
-            // Inicializar o gerenciador
-            async initialize() {
-                console.log("🚀 Iniciando gerenciador de conteúdo inteligente...");
-                
-                // Tentar carregar da localStorage primeiro
-                this.loadFromStorage();
-                
-                // Se não tem conteúdo salvo, descobrir automaticamente
-                if (this.availableVideos.length === 0 && this.availableImages.length === 0) {
-                    await this.discoverContent();
+            VIDEOS.forEach((video, index) => {
+                const item = document.createElement('div');
+                item.className = 'video-item';
+                if (index === currentVideoIndex) {
+                    item.classList.add('ativo');
                 }
                 
-                console.log(`✅ Conteúdo disponível: ${this.availableVideos.length} vídeos, ${this.availableImages.length} imagens`);
-            },
-            
-            // Descobrir conteúdo automaticamente das pastas
-            async discoverContent() {
-                console.log("🔍 Descobrindo conteúdo automaticamente...");
+                item.innerHTML = `
+                    <div class="video-numero">${video.numero}</div>
+                    <div style="flex: 1; text-align: left;">
+                        <div style="font-weight: 500; color: #fff;">${video.title}</div>
+                        <div style="font-size: 0.75rem; color: #888;">${video.description}</div>
+                    </div>
+                `;
                 
-                // Em um cenário real, você faria requisições para listar arquivos
-                // Como GitHub Raw não permite listagem, simulemos com nomes padrão
-                
-                // Vídeos: Video01.mp4, Video02.mp4, etc (até Video30.mp4)
-                for (let i = 1; i <= 30; i++) {
-                    const num = i.toString().padStart(2, '0');
-                    this.availableVideos.push({
-                        url: `${VIDEOS_FOLDER}Video${num}.mp4`,
-                        name: `Video${num}.mp4`,
-                        id: `video_${num}`,
-                        type: 'video'
-                    });
-                }
-                
-                // Imagens: Image01.jpg, Image02.jpg, etc (até Image30.jpg)
-                for (let i = 1; i <= 30; i++) {
-                    const num = i.toString().padStart(2, '0');
-                    this.availableImages.push({
-                        url: `${IMAGES_FOLDER}Image${num}.jpg`,
-                        name: `Image${num}.jpg`,
-                        id: `image_${num}`,
-                        type: 'image'
-                    });
-                }
-                
-                // Embaralhar as listas para aleatoriedade
-                this.shuffleArray(this.availableVideos);
-                this.shuffleArray(this.availableImages);
-                
-                this.saveToStorage();
-            },
-            
-            // Escolher conteúdo para um dia específico
-            getContentForDay(day) {
-                console.log(`🎯 Escolhendo conteúdo para o Dia ${day}...`);
-                
-                // Verificar se já temos conteúdo para este dia
-                const storedContent = this.getStoredContentForDay(day);
-                if (storedContent) {
-                    console.log(`📦 Usando conteúdo armazenado para Dia ${day}`);
-                    return storedContent;
-                }
-                
-                // Decidir o tipo de conteúdo (vídeo ou slideshow)
-                let contentType = this.decideContentType(day);
-                
-                // Escolher conteúdo específico baseado no tipo
-                let content;
-                
-                if (contentType === 'video') {
-                    content = this.chooseVideo(day);
-                } else {
-                    content = this.chooseSlideshow(day);
-                }
-                
-                // Armazenar no histórico
-                this.contentHistory.push({
-                    day: day,
-                    type: contentType,
-                    content: content
+                item.addEventListener('click', () => {
+                    carregarVideo(index);
                 });
                 
-                // Salvar escolha para este dia
-                this.saveContentForDay(day, content);
-                
-                console.log(`✅ Escolhido para Dia ${day}: ${contentType === 'video' ? 'Vídeo' : 'Slideshow'}`);
-                return content;
-            },
-            
-            // Decidir o tipo de conteúdo (algoritmo inteligente)
-            decideContentType(day) {
-                // Verificar último tipo usado
-                const lastTwoDays = this.contentHistory.slice(-2);
-                const videoCount = lastTwoDays.filter(c => c.type === 'video').length;
-                const imageCount = lastTwoDays.filter(c => c.type === 'slideshow').length;
-                
-                // Se já usou o mesmo tipo 2 dias seguidos, alternar
-                if (videoCount >= this.config.maxSameTypeStreak && this.availableImages.length > this.usedImages.size) {
-                    return 'slideshow';
-                }
-                if (imageCount >= this.config.maxSameTypeStreak && this.availableVideos.length > this.usedVideos.size) {
-                    return 'video';
-                }
-                
-                // Se um tipo está acabando, priorizar o outro
-                const remainingVideos = this.availableVideos.length - this.usedVideos.size;
-                const remainingImages = this.availableImages.length - this.usedImages.size;
-                
-                if (remainingVideos === 0) return 'slideshow';
-                if (remainingImages === 0) return 'video';
-                
-                // Decisão aleatória com peso
-                const random = Math.random();
-                return random < this.config.videoWeight ? 'video' : 'slideshow';
-            },
-            
-            // Escolher um vídeo
-            chooseVideo(day) {
-                // Filtrar vídeos não usados
-                const unusedVideos = this.availableVideos.filter(v => !this.usedVideos.has(v.id));
-                
-                if (unusedVideos.length === 0) {
-                    // Se todos os vídeos foram usados, resetar (opcional)
-                    console.log("🔄 Todos os vídeos usados, recomeçando...");
-                    this.usedVideos.clear();
-                    return this.availableVideos[day % this.availableVideos.length];
-                }
-                
-                // Escolher um vídeo aleatório não usado
-                const chosenVideo = unusedVideos[Math.floor(Math.random() * unusedVideos.length)];
-                
-                // Marcar como usado
-                this.usedVideos.add(chosenVideo.id);
-                
-                return {
-                    type: 'video',
-                    url: chosenVideo.url,
-                    title: `Dia ${day} - Transformação`,
-                    description: `Aula ${day} da sua jornada de 30 dias`,
-                    id: chosenVideo.id
-                };
-            },
-            
-            // Escolher um slideshow
-            chooseSlideshow(day) {
-                // Número de slides para este slideshow (1-3)
-                const numSlides = Math.min(this.config.maxSlidesPerDay, 
-                    Math.max(1, Math.floor(Math.random() * 3) + 1));
-                
-                const slides = [];
-                
-                for (let i = 0; i < numSlides; i++) {
-                    // Encontrar uma imagem não usada
-                    const unusedImages = this.availableImages.filter(img => !this.usedImages.has(img.id));
-                    
-                    if (unusedImages.length === 0) {
-                        // Se todas as imagens foram usadas
-                        console.log("🔄 Todas as imagens usadas, recomeçando...");
-                        this.usedImages.clear();
-                        break;
-                    }
-                    
-                    const chosenImage = unusedImages[Math.floor(Math.random() * unusedImages.length)];
-                    this.usedImages.add(chosenImage.id);
-                    
-                    slides.push({
-                        url: chosenImage.url,
-                        title: `Dia ${day} - Momento ${i + 1}`,
-                        description: `Inspiração para o seu dia ${day}`,
-                        id: chosenImage.id
-                    });
-                }
-                
-                return {
-                    type: 'slideshow',
-                    slides: slides,
-                    title: `Dia ${day} - Galeria de Inspiração`,
-                    description: `${slides.length} momentos especiais para você`
-                };
-            },
-            
-            // Gerenciamento de storage
-            saveContentForDay(day, content) {
-                const key = `dia_${day}_content`;
-                try {
-                    localStorage.setItem(key, JSON.stringify(content));
-                } catch (e) {
-                    console.warn("Não foi possível salvar no localStorage", e);
-                }
-            },
-            
-            getStoredContentForDay(day) {
-                const key = `dia_${day}_content`;
-                try {
-                    const stored = localStorage.getItem(key);
-                    return stored ? JSON.parse(stored) : null;
-                } catch (e) {
-                    return null;
-                }
-            },
-            
-            saveToStorage() {
-                try {
-                    const data = {
-                        videos: this.availableVideos,
-                        images: this.availableImages,
-                        usedVideos: Array.from(this.usedVideos),
-                        usedImages: Array.from(this.usedImages),
-                        history: this.contentHistory
-                    };
-                    localStorage.setItem('content_manager', JSON.stringify(data));
-                } catch (e) {
-                    console.warn("Erro ao salvar no localStorage", e);
-                }
-            },
-            
-            loadFromStorage() {
-                try {
-                    const data = JSON.parse(localStorage.getItem('content_manager'));
-                    if (data) {
-                        this.availableVideos = data.videos || [];
-                        this.availableImages = data.images || [];
-                        this.usedVideos = new Set(data.usedVideos || []);
-                        this.usedImages = new Set(data.usedImages || []);
-                        this.contentHistory = data.history || [];
-                    }
-                } catch (e) {
-                    console.warn("Erro ao carregar do localStorage", e);
-                }
-            },
-            
-            // Utilitários
-            shuffleArray(array) {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
-                }
-                return array;
-            },
-            
-            // Resetar para testes
-            reset() {
-                this.usedVideos.clear();
-                this.usedImages.clear();
-                this.contentHistory = [];
-                localStorage.removeItem('content_manager');
-                console.log("🔄 Gerenciador de conteúdo resetado");
-            }
-        };
-        
-        // ============================================================================
-        // SISTEMA PRINCIPAL DA APLICAÇÃO
-        // ============================================================================
-        
-        let slideshowState = {
-            currentIndex: 0,
-            isDragging: false,
-            startX: 0,
-            currentX: 0,
-            track: null
-        };
-        
-        // FUNÇÕES PRINCIPAIS
-        async function iniciar() {
-            console.log("🎬 Iniciando aplicação...");
-            
-            // Inicializar gerenciador de conteúdo
-            await ContentManager.initialize();
-            
-            // Sistema de datas
-            let inicio = localStorage.getItem('jornada_inicio');
-            if (!inicio) {
-                inicio = new Date().toISOString();
-                localStorage.setItem('jornada_inicio', inicio);
-                console.log(`📅 Data de início definida: ${inicio}`);
-            }
-            
-            const dataInicio = new Date(inicio);
-            const hoje = new Date();
-            const diferenca = hoje - dataInicio;
-            const diasPassados = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-            let dia = diasPassados + 1;
-            
-            if (dia > 30) dia = 30;
-            if (dia < 1) dia = 1;
-            
-            console.log(`📊 Dia atual: ${dia} (${diasPassados} dias passados)`);
-            
-            atualizar(dia);
-            verificarProximo(dia);
+                videoList.appendChild(item);
+            });
         }
         
-        function atualizar(dia) {
-            // Atualizar UI de progresso
-            document.getElementById('dia-numero').textContent = dia;
-            const porcentagem = (dia / 30) * 100;
-            const porcentagemFormatada = Math.round(porcentagem);
-            document.getElementById('porcentagem').textContent = porcentagemFormatada + '%';
-            document.getElementById('barra').style.width = porcentagem + '%';
+        // Carregar vídeo específico
+        function carregarVideo(index) {
+            if (index < 0 || index >= VIDEOS.length) return;
             
-            // Carregar conteúdo inteligente
-            carregarConteudoInteligente(dia);
+            currentVideoIndex = index;
+            const video = VIDEOS[index];
             
-            // Se concluiu
-            if (dia >= 30) {
-                document.getElementById('concluido').style.display = 'block';
-                document.getElementById('concluido').innerHTML = '<div class="concluido">✓ Jornada Concluída</div>';
-                document.getElementById('contador').style.display = 'none';
-            }
-        }
-        
-        async function carregarConteudoInteligente(dia) {
-            const container = document.getElementById('conteudo-placeholder');
-            const loader = document.getElementById('loader');
+            console.log(`📺 Carregando: ${video.title}`);
+            
+            // Atualizar UI
+            videoTitle.textContent = video.title;
+            videoDescription.textContent = video.description;
             
             // Mostrar loader
-            container.innerHTML = '';
             loader.style.display = 'block';
+            statusDiv.textContent = `Carregando vídeo ${video.numero}...`;
             
-            // Obter conteúdo do gerenciador inteligente
-            const conteudo = ContentManager.getContentForDay(dia);
-            
-            // Criar conteúdo baseado no tipo
-            let html = '';
-            
-            switch (conteudo.type) {
-                case 'video':
-                    html = criarVideoPlayer(conteudo.url, conteudo.title, conteudo.description, dia);
-                    break;
-                    
-                case 'slideshow':
-                    html = criarSlideshow(conteudo.slides, conteudo.title, conteudo.description, dia);
-                    break;
-                    
-                default:
-                    html = criarPlaceholder(dia);
-                    break;
-            }
-            
-            // Inserir no DOM
-            container.innerHTML = html;
-            loader.style.display = 'none';
-            
-            // Inicializar controles
-            if (conteudo.type === 'video') {
-                setTimeout(() => inicializarVideoPlayer(conteudo.url), 100);
-            } else if (conteudo.type === 'slideshow') {
-                setTimeout(() => inicializarSlideshow(conteudo.slides), 100);
-            }
-        }
-        
-        // FUNÇÕES DE CRIAÇÃO DE CONTEÚDO
-        function criarVideoPlayer(url, titulo, descricao, dia) {
-            return `
-                <div class="content-type-badge">🎬 Vídeo</div>
-                <div class="video-container" id="video-container">
-                    <video id="video-player" playsinline autoplay muted loop>
-                        <source src="${url}" type="video/mp4">
-                        Seu navegador não suporta vídeos HTML5.
-                    </video>
-                    <div class="slide-texto">
-                        <div class="slide-titulo">${titulo || `Dia ${dia} - Transformação`}</div>
-                        <div class="slide-descricao">${descricao || `Aula ${dia} da sua jornada`}</div>
-                    </div>
-                    <div class="video-controls">
-                        <button class="video-btn" id="play-btn">⏸</button>
-                        <button class="video-btn" id="mute-btn">🔇</button>
-                        <button class="video-btn" id="fullscreen-btn">⛶</button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function criarSlideshow(slides, titulo, descricao, dia) {
-            return `
-                <div class="content-type-badge">🖼️ Galeria</div>
-                <div class="slideshow-container" id="slideshow-container">
-                    <div class="slides-track" id="slides-track">
-                        ${slides.map((slide, index) => `
-                            <div class="slide">
-                                <div class="image-container">
-                                    <img src="${slide.url}" alt="${slide.title}" 
-                                         class="slide-image" id="slide-img-${index}"
-                                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzFhMWExYSIvPjx0ZXh0IHg9IjE1MCIgeT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNmZjZjNmMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZW0gJHtpbmRleCsxfTwvdGV4dD48L3N2Zz4=';">
-                                </div>
-                                <div class="slide-texto">
-                                    <div class="slide-titulo">${slide.title}</div>
-                                    <div class="slide-descricao">${slide.description}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="slide-counter" id="slide-counter">1/${slides.length}</div>
-                    <div class="slide-indicator" id="slide-indicator">
-                        ${slides.map((_, index) => `
-                            <div class="indicator-dot" data-index="${index}"></div>
-                        `).join('')}
-                    </div>
-                    <div class="instruction" id="instruction">← Arraste para trocar de foto →</div>
-                </div>
-            `;
-        }
-        
-        function criarPlaceholder(dia) {
-            return `
-                <div style="aspect-ratio: 9/16; display: flex; align-items: center; justify-content: center; background: #1a1a1a; color: #666;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 15px; color: #ff6b6b;">🎲</div>
-                        <div style="font-size: 1.2rem; color: #fff;">Dia ${dia}</div>
-                        <div style="font-size: 0.9rem; color: #888; margin-top: 10px;">Gerando conteúdo inteligente...</div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // INICIALIZAR VÍDEO PLAYER
-        function inicializarVideoPlayer(url) {
-            const video = document.getElementById('video-player');
-            const playBtn = document.getElementById('play-btn');
-            const muteBtn = document.getElementById('mute-btn');
-            const fullscreenBtn = document.getElementById('fullscreen-btn');
-            
-            if (!video) return;
-            
-            video.addEventListener('loadeddata', function() {
-                if (video.paused) {
-                    playBtn.textContent = '▶';
+            // Atualizar lista
+            document.querySelectorAll('.video-item').forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('ativo');
                 } else {
-                    playBtn.textContent = '⏸';
+                    item.classList.remove('ativo');
                 }
             });
             
-            video.addEventListener('error', function(e) {
-                console.error("Erro ao carregar vídeo:", url);
-                playBtn.textContent = '❌';
-                playBtn.style.background = 'rgba(255,0,0,0.7)';
-            });
+            // Tentar carregar o vídeo
+            videoSource.src = video.url;
+            videoPlayer.load();
             
-            // Controles
-            playBtn.addEventListener('click', function() {
-                if (video.paused) {
-                    video.play();
+            // Forçar recarga
+            videoPlayer.onloadeddata = function() {
+                console.log(`✅ Vídeo ${video.numero} carregado com sucesso!`);
+                loader.style.display = 'none';
+                
+                // Tentar reproduzir automaticamente
+                videoPlayer.play().then(() => {
+                    isPlaying = true;
                     playBtn.textContent = '⏸';
-                } else {
-                    video.pause();
+                    statusDiv.textContent = `Reproduzindo: ${video.title}`;
+                }).catch(error => {
+                    console.log("❌ Autoplay bloqueado:", error);
                     playBtn.textContent = '▶';
-                }
-            });
-            
-            muteBtn.addEventListener('click', function() {
-                video.muted = !video.muted;
-                muteBtn.textContent = video.muted ? '🔇' : '🔊';
-            });
-            
-            fullscreenBtn.addEventListener('click', function() {
-                const container = document.getElementById('video-container');
-                if (container.requestFullscreen) {
-                    container.requestFullscreen();
-                } else if (container.webkitRequestFullscreen) {
-                    container.webkitRequestFullscreen();
-                }
-            });
-            
-            video.addEventListener('ended', function() {
-                playBtn.textContent = '▶';
-            });
-        }
-        
-        // INICIALIZAR SLIDESHOW
-        function inicializarSlideshow(slides) {
-            const container = document.getElementById('slideshow-container');
-            const track = document.getElementById('slides-track');
-            const indicators = document.getElementById('slide-indicator');
-            const instruction = document.getElementById('instruction');
-            
-            if (!track) return;
-            
-            slideshowState.track = track;
-            track.style.width = `${slides.length * 100}%`;
-            
-            // Configurar indicadores
-            document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === 0);
-                dot.addEventListener('click', () => {
-                    goToSlide(index);
+                    isPlaying = false;
+                    statusDiv.textContent = `Vídeo ${video.numero} carregado - Clique em ▶`;
                 });
+            };
+            
+            videoPlayer.onerror = function(e) {
+                console.error(`❌ Erro ao carregar vídeo ${video.numero}:`, e);
+                loader.innerHTML = `
+                    <div style="color: #ff6b6b; font-size: 2rem;">❌</div>
+                    <div>Erro ao carregar vídeo ${video.numero}</div>
+                    <div style="font-size: 0.8rem; margin-top: 10px; color: #ff6b6b;">
+                        URL: ${video.url}
+                    </div>
+                `;
+                statusDiv.innerHTML = `
+                    <div style="color: #ff6b6b;">
+                        ❌ Erro: Vídeo ${video.numero} não encontrado
+                    </div>
+                    <div style="font-size: 0.8rem; margin-top: 5px;">
+                        Verifique se o arquivo existe no GitHub
+                    </div>
+                `;
+            };
+        }
+        
+        // Configurar eventos
+        function configurarEventos() {
+            // Controle de play/pause
+            playBtn.addEventListener('click', function() {
+                if (isPlaying) {
+                    videoPlayer.pause();
+                    playBtn.textContent = '▶';
+                    isPlaying = false;
+                    statusDiv.textContent = "Pausado";
+                } else {
+                    videoPlayer.play().then(() => {
+                        playBtn.textContent = '⏸';
+                        isPlaying = true;
+                        statusDiv.textContent = `Reproduzindo: ${videoTitle.textContent}`;
+                    }).catch(error => {
+                        console.log("Erro ao reproduzir:", error);
+                        statusDiv.textContent = "Erro ao reproduzir";
+                    });
+                }
             });
             
-            // Eventos de arraste
-            container.addEventListener('mousedown', startDrag);
-            container.addEventListener('mousemove', drag);
-            container.addEventListener('mouseup', endDrag);
-            container.addEventListener('mouseleave', endDrag);
-            
-            container.addEventListener('touchstart', startDragTouch, { passive: false });
-            container.addEventListener('touchmove', dragTouch, { passive: false });
-            container.addEventListener('touchend', endDrag);
-            
-            // Esconder instrução após 7 segundos
-            setTimeout(() => {
-                if (instruction) {
-                    instruction.style.opacity = '0';
-                    setTimeout(() => {
-                        instruction.style.display = 'none';
-                    }, 1000);
+            // Controle de mudo
+            muteBtn.addEventListener('click', function() {
+                if (isMuted) {
+                    videoPlayer.muted = false;
+                    muteBtn.textContent = '🔊';
+                    isMuted = false;
+                    statusDiv.textContent = "Som ativado";
+                } else {
+                    videoPlayer.muted = true;
+                    muteBtn.textContent = '🔇';
+                    isMuted = true;
+                    statusDiv.textContent = "Som desativado";
                 }
-            }, 7000);
+            });
             
-            // Atualizar UI inicial
-            atualizarSlideshowUI();
-        }
-        
-        // Funções do slideshow (mantidas do código anterior)
-        function startDrag(e) {
-            slideshowState.isDragging = true;
-            slideshowState.startX = e.clientX;
-            slideshowState.currentX = slideshowState.startX;
-            slideshowState.track.style.transition = 'none';
-            e.preventDefault();
-        }
-        
-        function drag(e) {
-            if (!slideshowState.isDragging) return;
-            slideshowState.currentX = e.clientX;
-            const diff = slideshowState.currentX - slideshowState.startX;
-            updateTrackPosition(diff);
-        }
-        
-        function startDragTouch(e) {
-            e.preventDefault();
-            slideshowState.isDragging = true;
-            slideshowState.startX = e.touches[0].clientX;
-            slideshowState.currentX = slideshowState.startX;
-            slideshowState.track.style.transition = 'none';
-        }
-        
-        function dragTouch(e) {
-            if (!slideshowState.isDragging) return;
-            e.preventDefault();
-            slideshowState.currentX = e.touches[0].clientX;
-            const diff = slideshowState.currentX - slideshowState.startX;
-            updateTrackPosition(diff);
-        }
-        
-        function endDrag() {
-            if (!slideshowState.isDragging) return;
-            slideshowState.isDragging = false;
-            slideshowState.track.style.transition = 'transform 0.3s ease-out';
+            // Tela cheia
+            fullscreenBtn.addEventListener('click', function() {
+                const container = document.querySelector('.video-container');
+                
+                if (!document.fullscreenElement) {
+                    if (container.requestFullscreen) {
+                        container.requestFullscreen();
+                    } else if (container.webkitRequestFullscreen) {
+                        container.webkitRequestFullscreen();
+                    } else if (container.msRequestFullscreen) {
+                        container.msRequestFullscreen();
+                    }
+                    statusDiv.textContent = "Tela cheia ativada";
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                    statusDiv.textContent = "Tela cheia desativada";
+                }
+            });
             
-            const diff = slideshowState.currentX - slideshowState.startX;
-            const threshold = 50;
+            // Quando o vídeo terminar
+            videoPlayer.addEventListener('ended', function() {
+                playBtn.textContent = '⏭️';
+                isPlaying = false;
+                statusDiv.textContent = "Vídeo finalizado";
+                
+                // Ir para o próximo vídeo após 2 segundos
+                setTimeout(() => {
+                    const nextIndex = (currentVideoIndex + 1) % VIDEOS.length;
+                    carregarVideo(nextIndex);
+                }, 2000);
+            });
             
-            if (diff > threshold && slideshowState.currentIndex > 0) {
-                previousSlide();
-            } else if (diff < -threshold && slideshowState.currentIndex < getSlideCount() - 1) {
-                nextSlide();
-            } else {
-                goToSlide(slideshowState.currentIndex);
-            }
-        }
-        
-        function updateTrackPosition(diff) {
-            const slideWidth = 100 / getSlideCount();
-            const basePosition = -slideshowState.currentIndex * slideWidth;
-            const dragOffset = (diff / window.innerWidth) * 100;
-            slideshowState.track.style.transform = `translateX(${basePosition + dragOffset}%)`;
-        }
-        
-        function getSlideCount() {
-            return document.querySelectorAll('.slide').length;
-        }
-        
-        function previousSlide() {
-            if (slideshowState.currentIndex > 0) {
-                slideshowState.currentIndex--;
-                goToSlide(slideshowState.currentIndex);
-            }
-        }
-        
-        function nextSlide() {
-            if (slideshowState.currentIndex < getSlideCount() - 1) {
-                slideshowState.currentIndex++;
-                goToSlide(slideshowState.currentIndex);
-            }
-        }
-        
-        function goToSlide(index) {
-            slideshowState.currentIndex = index;
-            const slideWidth = 100 / getSlideCount();
-            slideshowState.track.style.transform = `translateX(-${slideshowState.currentIndex * slideWidth}%)`;
-            atualizarSlideshowUI();
-        }
-        
-        function atualizarSlideshowUI() {
-            const total = getSlideCount();
-            document.getElementById('slide-counter').textContent = 
-                `${slideshowState.currentIndex + 1}/${total}`;
-            
-            document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === slideshowState.currentIndex);
+            // Eventos de teclado
+            document.addEventListener('keydown', function(e) {
+                switch(e.key) {
+                    case ' ':
+                    case 'Spacebar':
+                        e.preventDefault();
+                        playBtn.click();
+                        break;
+                    case 'm':
+                    case 'M':
+                        e.preventDefault();
+                        muteBtn.click();
+                        break;
+                    case 'f':
+                    case 'F':
+                        e.preventDefault();
+                        fullscreenBtn.click();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        if (e.ctrlKey || e.metaKey) {
+                            // Ctrl+← = vídeo anterior
+                            const prevIndex = (currentVideoIndex - 1 + VIDEOS.length) % VIDEOS.length;
+                            carregarVideo(prevIndex);
+                        } else {
+                            // ← = retroceder 10s
+                            videoPlayer.currentTime -= 10;
+                            statusDiv.textContent = "Retrocedeu 10 segundos";
+                        }
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        if (e.ctrlKey || e.metaKey) {
+                            // Ctrl+→ = próximo vídeo
+                            const nextIndex = (currentVideoIndex + 1) % VIDEOS.length;
+                            carregarVideo(nextIndex);
+                        } else {
+                            // → = avançar 10s
+                            videoPlayer.currentTime += 10;
+                            statusDiv.textContent = "Avançou 10 segundos";
+                        }
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        const prevIndex = (currentVideoIndex - 1 + VIDEOS.length) % VIDEOS.length;
+                        carregarVideo(prevIndex);
+                        break;
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        const nextIndex = (currentVideoIndex + 1) % VIDEOS.length;
+                        carregarVideo(nextIndex);
+                        break;
+                }
             });
         }
         
-        // CONTADOR DE TEMPO
-        function verificarProximo(dia) {
-            if (dia >= 30) return;
+        // Testar URLs
+        function testarURLs() {
+            statusDiv.innerHTML = `
+                <div>🔍 Testando conexão com GitHub...</div>
+                <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">
+                    Usuário: ${USER} | Repo: ${REPO}
+                </div>
+            `;
             
-            const agora = new Date();
-            const amanha = new Date();
-            amanha.setDate(amanha.getDate() + 1);
-            amanha.setHours(0, 0, 0, 0);
-            
-            function atualizarContador() {
-                const agora = new Date();
-                const restante = amanha - agora;
-                
-                if (restante <= 0) {
-                    document.getElementById('tempo').textContent = '00:00:00';
-                    document.getElementById('tempo').style.color = '#4CAF50';
-                    return;
-                }
-                
-                const horas = Math.floor(restante / (1000 * 60 * 60));
-                const minutos = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
-                const segundos = Math.floor((restante % (1000 * 60)) / 1000);
-                
-                document.getElementById('tempo').textContent = 
-                    `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-            }
-            
-            atualizarContador();
-            setInterval(atualizarContador, 1000);
+            // Testar primeiro vídeo
+            fetch(VIDEOS[0].url)
+                .then(response => {
+                    if (response.ok) {
+                        statusDiv.innerHTML = `
+                            <div style="color: #4CAF50;">✅ Conexão estabelecida!</div>
+                            <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">
+                                ${VIDEOS.length} vídeos disponíveis
+                            </div>
+                        `;
+                    } else {
+                        statusDiv.innerHTML = `
+                            <div style="color: #ff6b6b;">⚠️ Repositório encontrado, mas vídeo não</div>
+                            <div style="font-size: 0.8rem; margin-top: 5px;">
+                                Crie a pasta <strong>videos/</strong> com Video01.mp4, etc.
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    statusDiv.innerHTML = `
+                        <div style="color: #ff6b6b;">❌ Erro de conexão</div>
+                        <div style="font-size: 0.8rem; margin-top: 5px;">
+                            Verifique: https://github.com/${USER}/${REPO}
+                        </div>
+                    `;
+                });
         }
         
-        // INICIAR APLICAÇÃO
-        document.addEventListener('DOMContentLoaded', iniciar);
+        // Iniciar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            iniciarPlayer();
+            // Testar conexão após 2 segundos
+            setTimeout(testarURLs, 2000);
+        });
         
-        // Botão de reset para testes (opcional - remover em produção)
-        console.log("💡 Dica: Use ContentManager.reset() no console para resetar o conteúdo");
+        // Comandos do console
+        console.log("🎮 Comandos disponíveis:");
+        console.log("• Espaço = Play/Pause");
+        console.log("• M = Mudo/Desmudo");
+        console.log("• F = Tela cheia");
+        console.log("• Setas = Avançar/Retroceder 10s");
+        console.log("• Ctrl+Setas ou ↑↓ = Trocar vídeo");
+        console.log("• currentVideoIndex = Ver vídeo atual");
+        console.log("• carregarVideo(n) = Ir para vídeo n (0-33)");
     </script>
 </body>
 </html>
